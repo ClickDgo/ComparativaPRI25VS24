@@ -1,0 +1,2129 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>PRI — Análisis Electoral Seccional Distrito Local 04</title>
+
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+
+<style>
+
+/* =========================================================
+   CONFIGURACIÓN GENERAL
+========================================================= */
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+
+    margin:0;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:#f5f5f5;
+
+    color:#292929;
+
+}
+
+
+/* =========================================================
+   ENCABEZADO PRI
+========================================================= */
+
+.header{
+
+    background:#C8102E;
+
+    color:white;
+
+    padding:32px 45px 30px 45px;
+
+    box-shadow:
+        0 3px 10px
+        rgba(0,0,0,.18);
+
+}
+
+.header-inner{
+
+    max-width:1500px;
+
+    margin:auto;
+
+}
+
+.header h1{
+
+    margin:0;
+
+    font-size:32px;
+
+    font-weight:700;
+
+    letter-spacing:-.5px;
+
+}
+
+.header p{
+
+    margin:
+
+        8px 0 0 0;
+
+    font-size:16px;
+
+    opacity:.94;
+
+}
+
+
+/* =========================================================
+   CONTENEDOR
+========================================================= */
+
+.container{
+
+    max-width:1500px;
+
+    margin:auto;
+
+    padding:28px;
+
+}
+
+
+/* =========================================================
+   TARJETAS
+========================================================= */
+
+.card{
+
+    background:white;
+
+    border-radius:10px;
+
+    padding:24px;
+
+    margin-bottom:24px;
+
+    box-shadow:
+        0 2px 9px
+        rgba(0,0,0,.07);
+
+}
+
+.card-title{
+
+    font-size:21px;
+
+    font-weight:700;
+
+    margin-bottom:5px;
+
+}
+
+.card-subtitle{
+
+    color:#777;
+
+    font-size:13px;
+
+    margin-bottom:20px;
+
+}
+
+
+/* =========================================================
+   FILTROS
+========================================================= */
+
+.filters{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:20px;
+
+}
+
+.filter label{
+
+    display:block;
+
+    font-size:13px;
+
+    font-weight:700;
+
+    margin-bottom:7px;
+
+    color:#444;
+
+}
+
+select{
+
+    width:100%;
+
+    height:43px;
+
+    padding:
+        0 12px;
+
+    border:
+        1px solid #d0d0d0;
+
+    border-radius:6px;
+
+    background:white;
+
+    font-size:14px;
+
+    color:#333;
+
+    cursor:pointer;
+
+}
+
+select:focus{
+
+    outline:none;
+
+    border-color:#C8102E;
+
+    box-shadow:
+        0 0 0 2px
+        rgba(200,16,46,.10);
+
+}
+
+
+/* =========================================================
+   SELECCIÓN ACTUAL
+========================================================= */
+
+.selected-section{
+
+    margin-top:20px;
+
+    padding:16px 18px;
+
+    background:#fafafa;
+
+    border-left:
+        5px solid #C8102E;
+
+    border-radius:5px;
+
+}
+
+.selected-title{
+
+    font-size:12px;
+
+    color:#777;
+
+    text-transform:uppercase;
+
+    letter-spacing:.5px;
+
+}
+
+.selected-value{
+
+    margin-top:4px;
+
+    font-size:22px;
+
+    font-weight:700;
+
+    color:#C8102E;
+
+}
+
+
+/* =========================================================
+   GRÁFICA
+========================================================= */
+
+.chart-container{
+
+    width:100%;
+
+    min-height:520px;
+
+}
+
+
+/* =========================================================
+   LUGARES
+========================================================= */
+
+.ranking-title{
+
+    font-size:18px;
+
+    font-weight:700;
+
+    margin-top:10px;
+
+    margin-bottom:15px;
+
+}
+
+.ranking-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(6,1fr);
+
+    gap:10px;
+
+}
+
+.ranking-card{
+
+    border:
+        1px solid #e2e2e2;
+
+    border-radius:8px;
+
+    padding:14px;
+
+    background:#fafafa;
+
+    text-align:center;
+
+}
+
+.ranking-party{
+
+    font-size:13px;
+
+    font-weight:700;
+
+    margin-bottom:8px;
+
+}
+
+.ranking-year{
+
+    font-size:11px;
+
+    color:#777;
+
+    margin-top:5px;
+
+}
+
+.ranking-place{
+
+    font-size:25px;
+
+    font-weight:700;
+
+    margin-top:3px;
+
+}
+
+
+/* =========================================================
+   COLORES DE PARTIDOS
+========================================================= */
+
+.pan{
+    color:#0057B8;
+}
+
+.pri{
+    color:#C8102E;
+}
+
+.pvem{
+    color:#009B4D;
+}
+
+.pt{
+    color:#D71920;
+}
+
+.mc{
+    color:#F58220;
+}
+
+.morena{
+    color:#7A1F3D;
+}
+
+
+/* =========================================================
+   NOTA
+========================================================= */
+
+.note{
+
+    font-size:12px;
+
+    color:#777;
+
+    line-height:1.6;
+
+    margin-top:18px;
+
+}
+
+
+/* =========================================================
+   PIE
+========================================================= */
+
+.footer{
+
+    max-width:1500px;
+
+    margin:
+        0 auto 35px auto;
+
+    padding:
+        0 28px;
+
+    font-size:11px;
+
+    color:#888;
+
+    line-height:1.6;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:900px){
+
+    .filters{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .ranking-grid{
+
+        grid-template-columns:
+            repeat(3,1fr);
+
+    }
+
+    .header{
+
+        padding:
+            25px 22px;
+
+    }
+
+    .header h1{
+
+        font-size:25px;
+
+    }
+
+}
+
+
+@media(max-width:550px){
+
+    .ranking-grid{
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+    .container{
+
+        padding:15px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     ENCABEZADO
+========================================================= -->
+
+<header class="header">
+
+<div class="header-inner">
+
+<h1>
+PRI — Análisis Electoral Seccional Distrito Local 04
+</h1>
+
+<p>
+Comparativo 2024–2025 · Resultados por sección electoral
+</p>
+
+</div>
+
+</header>
+
+
+
+<!-- =========================================================
+     CONTENIDO
+========================================================= -->
+
+<main class="container">
+
+
+<!-- =========================================================
+     FILTROS
+========================================================= -->
+
+<section class="card">
+
+<div class="card-title">
+Seleccionar sección electoral
+</div>
+
+<div class="card-subtitle">
+Consulta los resultados de una sección específica o de una colonia/región.
+</div>
+
+
+<div class="filters">
+
+
+<div class="filter">
+
+<label for="sectionSelect">
+Sección electoral
+</label>
+
+<select id="sectionSelect">
+
+<option value="TODAS">
+Todas
+</option>
+
+</select>
+
+</div>
+
+
+
+<div class="filter">
+
+<label for="regionSelect">
+Colonia / Región
+</label>
+
+<select id="regionSelect">
+
+<option value="TODAS">
+Todas
+</option>
+
+</select>
+
+</div>
+
+
+</div>
+
+
+<div class="selected-section">
+
+<div class="selected-title">
+Selección actual
+</div>
+
+<div
+    class="selected-value"
+    id="selectedText">
+
+Todas las secciones
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     GRÁFICA PRINCIPAL
+========================================================= -->
+
+<section class="card">
+
+<div class="card-title">
+Resultados electorales comparativos
+</div>
+
+<div class="card-subtitle">
+
+Porcentaje de votación por partido.
+Las barras de 2024 y 2025 aparecen juntas para facilitar
+la comparación.
+
+</div>
+
+
+<div
+    id="mainChart"
+    class="chart-container">
+</div>
+
+
+<!-- =====================================================
+     LUGARES OCUPADOS
+===================================================== -->
+
+<div class="ranking-title">
+
+Lugar ocupado por partido
+
+</div>
+
+
+<div
+    id="rankingContainer"
+    class="ranking-grid">
+</div>
+
+
+<div class="note">
+
+El lugar corresponde a la posición relativa de cada partido
+considerando los porcentajes mostrados para la selección
+actual. Un menor número representa una posición superior.
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CAMBIO PRI
+========================================================= -->
+
+<section class="card">
+
+<div class="card-title">
+
+Cambio del PRI: 2025 vs. 2024
+
+</div>
+
+<div class="card-subtitle">
+
+Diferencia en puntos porcentuales entre la participación
+del PRI en 2025 y 2024.
+
+</div>
+
+
+<div
+    id="changeChart"
+    class="chart-container">
+</div>
+
+
+<div class="note">
+
+<strong>Interpretación:</strong>
+
+Los valores positivos indican un aumento de la participación
+del PRI en 2025 respecto a 2024. Los valores negativos indican
+una disminución. El cambio se calcula como:
+
+<strong>
+PRI 2025 − PRI 2024
+</strong>
+
+</div>
+
+</section>
+
+
+</main>
+
+
+
+<!-- =========================================================
+     PIE
+========================================================= -->
+
+<footer class="footer">
+
+<strong>Nota metodológica:</strong>
+
+Los porcentajes corresponden a la información proporcionada
+para cada sección electoral. Los valores N/D se excluyen de
+los cálculos cuando no existe información disponible.
+
+<br><br>
+
+<strong>Elaborado por J.E. Vázquez.</strong>
+
+</footer>
+
+
+
+<script>
+
+/* =========================================================
+   DATOS
+========================================================= */
+
+/*
+
+IMPORTANTE:
+
+Los valores corresponden a la tabla proporcionada.
+
+null = N/D
+
+*/
+
+const data = [
+
+[318,"Insurgentes",
+22.33,25.58,.93,3.26,21.40,19.53,
+18.97,20.00,3.45,8.97,8.97,30.34],
+
+[299,"Azteca",
+21.22,23.90,1.91,2.29,22.75,19.50,
+14.91,23.59,4.34,7.38,11.43,29.23],
+
+[300,"8 de Septiembre",
+22.71,25.36,.48,2.90,26.09,12.80,
+9.57,33.99,4.95,5.61,7.92,28.38],
+
+[301,"Benigno Montoya",
+21.81,24.58,1.23,2.09,28.12,13.86,
+19.10,29.29,4.15,5.68,9.63,32.07],
+
+[317,"Insurgentes",
+22.26,25.34,2.05,2.40,28.42,13.70,
+20.63,21.93,3.13,8.62,12.01,26.89],
+
+[306,"El Paraiso",
+23.55,26.45,1.16,1.35,26.06,13.51,
+21.47,23.87,3.60,4.65,9.76,27.63],
+
+[307,"Privada Luna",
+21.17,23.98,.77,3.83,27.81,17.09,
+20.77,21.13,2.37,6.38,12.02,26.96],
+
+[308,"Chapultepec",
+25.27,28.54,.65,1.53,24.40,11.76,
+20.92,22.73,1.65,4.12,13.01,25.86],
+
+[309,"4 Centenario",
+25.74,29.17,1.25,3.12,21.68,12.64,
+21.58,24.09,4.79,5.48,11.53,24.43],
+
+[310,"El Paraiso",
+23.67,26.68,1.94,1.59,23.32,13.07,
+19.81,25.58,5.64,3.99,9.77,26.00],
+
+[311,"Villas de Santa Teresa",
+25.04,28.27,.97,1.62,24.88,10.82,
+27.94,22.90,4.32,3.12,12.47,23.38],
+
+[312,"Villas de Santa Teresa",
+23.25,26.18,1.05,1.47,28.17,11.94,
+19.30,26.14,4.32,5.13,13.36,23.53],
+
+[313,"4 Centenario",
+22.22,24.85,1.17,4.68,24.56,14.33,
+20.71,19.15,2.90,9.13,10.47,31.40],
+
+[314,"Del Valle",
+22.54,25.63,.28,4.51,26.48,11.83,
+18.69,19.92,3.08,7.60,12.53,29.16],
+
+[315,"Del Valle",
+22.73,25.65,1.46,2.76,23.70,16.23,
+18.56,24.19,3.35,7.19,10.06,26.95],
+
+[316,"Insurgentes",
+24.19,27.11,1.46,3.41,22.89,14.77,
+20.15,27.55,3.57,6.51,10.46,26.28],
+
+[326,"Vicente Guerrero",
+20.72,23.12,.30,4.80,25.83,15.02,
+10.87,21.93,4.83,11.87,8.65,33.40],
+
+[327,"Lucio Cabañas",
+16.58,18.61,1.09,11.01,27.72,14.81,
+11.74,13.82,2.97,22.29,8.02,31.05],
+
+[328,"4 Centenario",
+20.07,22.63,.73,4.01,32.85,12.77,
+14.52,19.32,3.66,8.08,9.85,34.47],
+
+[329,"Juan de la Barre",
+19.32,22.00,.24,2.93,28.85,14.91,
+null,null,null,null,null,null],
+
+[330,"General Domingo Arrieta",
+23.14,25.95,1.16,2.81,28.93,11.40,
+20.47,21.95,5.92,4.93,9.86,27.99],
+
+[331,"General Domingo Arrieta",
+21.47,24.34,1.25,1.87,26.97,16.73,
+11.92,21.91,3.85,5.13,11.46,30.16],
+
+[332,"Anahuac",
+21.29,23.95,.95,2.09,30.99,11.41,
+21.58,23.28,9.29,13.93,13.66,63.11],
+
+[333,"Anahuac",
+19.04,21.56,3.90,5.05,24.54,16.74,
+14.87,23.48,3.05,6.27,7.53,35.48],
+
+[334,"Division del Norte",
+19.21,21.43,1.72,2.96,27.83,14.04,
+9.18,24.15,4.59,8.33,5.78,37.93],
+
+[335,"Division del Norte",
+17.36,19.56,1.96,3.67,29.10,15.16,
+8.08,24.92,2.86,8.75,6.57,38.55],
+
+[336,"1er de Mayo",
+19.03,21.24,1.99,5.09,26.11,15.27,
+16.96,57.79,10.03,23.53,17.99,68.86],
+
+[337,"Lucio Cabañas",
+18.59,21.11,1.26,7.04,27.89,11.31,
+25.38,43.85,7.31,28.46,14.23,65.77],
+
+[342,"Los Pinos",
+21.25,24.00,2.50,2.75,28.00,11.25,
+11.95,27.55,4.62,8.48,8.09,29.29],
+
+[343,"Durango Nuevo",
+21.21,23.79,1.03,3.28,23.79,16.21,
+7.03,24.50,5.77,10.27,5.05,20.90],
+
+[344,"Asentamientos Humanos",
+16.67,18.68,.86,3.30,30.46,17.96,
+10.05,21.39,4.38,10.05,7.46,33.71],
+
+[345,"Asentamientos Humanos",
+19.28,21.62,.93,2.80,31.73,15.40,
+15.71,22.42,5.05,5.49,11.76,29.67],
+
+[346,"General Domingo Arrieta",
+20.23,22.68,.52,3.09,27.58,18.43,
+16.52,21.79,3.88,6.87,12.34,29.85],
+
+[347,"Juan Lira",
+21.93,24.71,1.77,3.68,25.22,13.43,
+11.41,25.67,4.78,7.55,9.06,38.09],
+
+[348,"Claveles",
+20.43,22.99,1.15,2.55,28.86,11.37,
+11.64,22.35,7.14,6.45,6.91,36.18],
+
+[349,"Villas Doradas",
+20.55,23.11,1.55,3.10,29.11,12.47,
+8.00,25.18,3.47,9.32,8.04,32.27],
+
+[350,"Niños Heroes",
+21.25,23.71,.82,2.45,31.88,10.90,
+10.75,22.84,6.14,5.18,7.68,38.00],
+
+[351,"Privanzas",
+26.93,30.36,2.60,1.67,20.61,13.09,
+32.19,31.04,3.22,2.72,9.23,15.88],
+
+[352,"Ignacio Zaragoza",
+20.41,22.45,2.72,6.12,2.04,38.78,
+.61,53.66,6.10,1.22,1.83,32.93],
+
+[353,"Rio Verde",
+16.75,18.78,4.57,2.54,2.03,40.10,
+6.13,47.64,1.89,1.42,0,36.32],
+
+[359,"N/D",
+null,null,null,null,null,null,
+null,null,null,null,null,null],
+
+[358,"La Luz",
+12.56,13.95,2.79,4.19,7.91,42.79,
+1.99,30.68,1.99,4.38,1.59,47.01],
+
+[360,"Santa Cruz de San Javier",
+14.41,16.10,9.32,2.54,6.78,37.29,
+null,null,null,null,null,null],
+
+[373,"Otinapa",
+26.62,30.52,8.44,1.95,7.14,16.88,
+4.65,52.91,2.91,5.23,.58,26.16],
+
+[374,"Nueva Patria",
+14.62,16.28,4.98,3.32,5.65,47.51,
+2.51,49.86,3.34,.28,.56,35.93],
+
+[397,"Sebastian Lerdo de Tejada",
+19.00,21.40,3.14,3.14,23.25,18.63,
+15.25,29.66,4.66,3.67,7.49,25.85],
+
+[375,"N/D",
+22.78,25.32,3.16,3.80,6.96,22.78,
+5.88,28.82,1.76,4.71,1.18,42.35],
+
+[386,"San José de Animas",
+9.23,10.77,6.67,2.56,4.10,48.72,
+3.20,32.40,5.60,2.00,.40,44.40],
+
+[387,"N/D",
+16.00,19.00,3.00,3.00,4.00,49.00,
+4.26,45.74,3.19,1.06,0,37.23],
+
+[388,"Maximo Garcia",
+14.44,16.39,5.56,2.22,12.78,31.67,
+5.77,17.79,2.16,6.49,3.13,52.88],
+
+[389,"N/D",
+17.94,20.19,1.68,5.42,26.54,17.57,
+14.50,24.66,5.28,7.59,6.23,28.32],
+
+[390,"Predio la Pradera 2",
+22.94,26.06,2.00,3.79,19.82,14.70,
+10.25,26.89,7.90,5.88,3.70,33.95],
+
+[398,"La Ferreria",
+21.40,24.21,1.52,2.34,25.03,14.74,
+40.00,42.46,6.15,11.38,16.00,62.15],
+
+[399,"N/D",
+19.60,22.05,1.34,3.12,31.85,11.36,
+16.93,31.31,4.63,7.99,7.99,20.61],
+
+[400,"N/D",
+19.89,22.35,1.70,4.55,28.03,12.88,
+20.67,46.06,8.66,11.81,9.25,37.99],
+
+[401,"Banderas del Aguila",
+17.02,19.36,3.62,1.06,9.15,28.51,
+7.44,36.68,4.15,4.50,2.77,34.08],
+
+[402,"Pilar de Zaragoza",
+20.68,23.30,2.09,3.14,18.06,23.30,
+16.03,25.14,2.19,3.10,4.92,38.43],
+
+[412,"Tomas Urbina-Valle Florido",
+20.95,23.81,1.52,4.57,19.05,18.29,
+11.29,25.47,4.20,5.21,5.07,36.90],
+
+[405,"Felipe Angeles",
+28.40,32.10,.97,1.56,15.18,14.01,
+35.07,15.82,3.43,5.22,5.22,41.04],
+
+[407,"El Tecuan",
+15.38,17.03,5.49,4.40,10.99,33.52,
+3.33,46.67,6.25,2.92,.42,28.75],
+
+[408,"N/D",
+21.28,23.40,2.13,3.55,6.38,30.50,
+10.42,31.94,1.39,.69,2.08,41.67],
+
+[409,"Llano Grande",
+15.74,17.65,2.08,3.11,15.22,34.26,
+7.08,37.80,2.78,3.54,3.79,33.12],
+
+[410,"N/D",
+21.96,24.86,3.27,3.45,16.33,17.97,
+20.45,21.21,2.65,3.41,3.79,32.20],
+
+[411,"Jose Maria Pino Suarez",
+22.35,25.28,1.96,2.65,16.20,21.37,
+34.52,90.32,8.39,16.45,14.52,99.03],
+
+[413,"18 de Marzo",
+12.09,13.19,3.30,3.30,12.64,36.81,
+0,0,3.06,3.49,4.80,51.09],
+
+[414,"Nicolas Romero",
+14.29,16.07,2.14,3.93,8.93,40.71,
+37.19,15.15,6.34,4.96,2.48,34.16],
+
+[415,"La Boca del Mezquital",
+9.09,10.91,3.64,7.27,23.64,36.36,
+1.69,25.42,1.69,1.69,5.08,61.02],
+
+[416,"El Encinal",
+8.55,9.73,3.83,5.01,7.96,54.28,
+5.15,19.36,3.19,1.23,2.21,58.09],
+
+[417,"Regocijo",
+11.33,13.33,3.33,4.00,.67,54.00,
+9.62,23.72,3.21,.64,0,56.41],
+
+[418,"N/D",
+4.55,4.55,1.52,1.52,7.58,72.73,
+1.10,14.29,3.30,8.79,0,69.23]
+
+];
+
+
+/* =========================================================
+   ESTRUCTURA DE DATOS
+========================================================= */
+
+const parties = [
+
+    {
+        name:"PAN",
+        color:"#0057B8",
+        className:"pan"
+    },
+
+    {
+        name:"PRI",
+        color:"#C8102E",
+        className:"pri"
+    },
+
+    {
+        name:"PVEM",
+        color:"#009B4D",
+        className:"pvem"
+    },
+
+    {
+        name:"PT",
+        color:"#D71920",
+        className:"pt"
+    },
+
+    {
+        name:"MC",
+        color:"#F58220",
+        className:"mc"
+    },
+
+    {
+        name:"MORENA",
+        color:"#7A1F3D",
+        className:"morena"
+    }
+
+];
+
+
+/*
+    Orden de columnas dentro de cada fila:
+
+    0  Sección
+    1  Colonia
+
+    2  PAN 2025
+    3  PRI 2025
+    4  PVEM 2025
+    5  PT 2025
+    6  MC 2025
+    7  MORENA 2025
+
+    8  PAN 2024
+    9  PRI 2024
+    10 PVEM 2024
+    11 PT 2024
+    12 MC 2024
+    13 MORENA 2024
+*/
+
+
+function convertRow(row){
+
+    return {
+
+        section:row[0],
+
+        region:row[1],
+
+        "2025":{
+            PAN:row[2],
+            PRI:row[3],
+            PVEM:row[4],
+            PT:row[5],
+            MC:row[6],
+            MORENA:row[7]
+        },
+
+        "2024":{
+            PAN:row[8],
+            PRI:row[9],
+            PVEM:row[10],
+            PT:row[11],
+            MC:row[12],
+            MORENA:row[13]
+        }
+
+    };
+
+}
+
+
+const records =
+    data.map(convertRow);
+
+
+/* =========================================================
+   FUNCIONES AUXILIARES
+========================================================= */
+
+function valid(value){
+
+    return (
+        value !== null &&
+        value !== undefined &&
+        !Number.isNaN(value)
+    );
+
+}
+
+
+function format(value){
+
+    if(!valid(value)){
+
+        return "N/D";
+
+    }
+
+    return value.toFixed(2) + "%";
+
+}
+
+
+/* =========================================================
+   CARGAR LISTBOX
+========================================================= */
+
+function loadFilters(){
+
+    const sectionSelect =
+        document.getElementById(
+            "sectionSelect"
+        );
+
+    const regionSelect =
+        document.getElementById(
+            "regionSelect"
+        );
+
+
+    /*
+       SECCIONES
+    */
+
+    const sections =
+        [...new Set(
+            records
+            .map(d=>d.section)
+        )]
+        .sort(
+            (a,b)=>a-b
+        );
+
+
+    sections.forEach(section=>{
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+        option.value =
+            section;
+
+        option.textContent =
+            section;
+
+        sectionSelect.appendChild(
+            option
+        );
+
+    });
+
+
+    /*
+       COLONIAS
+    */
+
+    const regions =
+        [...new Set(
+            records
+            .map(d=>d.region)
+        )]
+        .sort();
+
+
+    regions.forEach(region=>{
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+        option.value =
+            region;
+
+        option.textContent =
+            region;
+
+        regionSelect.appendChild(
+            option
+        );
+
+    });
+
+}
+
+
+/* =========================================================
+   OBTENER DATOS FILTRADOS
+========================================================= */
+
+function getFilteredData(){
+
+    const section =
+        document.getElementById(
+            "sectionSelect"
+        ).value;
+
+
+    const region =
+        document.getElementById(
+            "regionSelect"
+        ).value;
+
+
+    return records.filter(d=>{
+
+        const sectionOK =
+            section === "TODAS" ||
+            String(d.section) === String(section);
+
+
+        const regionOK =
+            region === "TODAS" ||
+            d.region === region;
+
+
+        return (
+            sectionOK &&
+            regionOK
+        );
+
+    });
+
+}
+
+
+/* =========================================================
+   PROMEDIO
+========================================================= */
+
+function average(values){
+
+    const validValues =
+        values.filter(valid);
+
+
+    if(
+        validValues.length === 0
+    ){
+
+        return null;
+
+    }
+
+
+    return validValues.reduce(
+        (a,b)=>a+b,
+        0
+    ) /
+    validValues.length;
+
+}
+
+
+/* =========================================================
+   OBTENER PROMEDIOS PARA LA GRÁFICA
+========================================================= */
+
+function calculateAverages(filtered){
+
+    const result = {
+
+        2024:{},
+        2025:{}
+
+    };
+
+
+    parties.forEach(p=>{
+
+        result["2024"][p.name] =
+            average(
+                filtered.map(
+                    d=>d["2024"][p.name]
+                )
+            );
+
+
+        result["2025"][p.name] =
+            average(
+                filtered.map(
+                    d=>d["2025"][p.name]
+                )
+            );
+
+    });
+
+
+    return result;
+
+}
+
+
+/* =========================================================
+   GRÁFICA PRINCIPAL
+========================================================= */
+
+function renderMainChart(){
+
+    const filtered =
+        getFilteredData();
+
+
+    const averages =
+        calculateAverages(
+            filtered
+        );
+
+
+    const x =
+        parties.map(
+            p=>p.name
+        );
+
+
+    const traces=[];
+
+
+    /*
+       2024
+    */
+
+    traces.push({
+
+        x:x,
+
+        y:parties.map(
+            p=>averages["2024"][p.name]
+        ),
+
+        name:"2024",
+
+        type:"bar",
+
+        marker:{
+
+            color:
+                parties.map(
+                    p=>p.color
+                ),
+
+            opacity:.55,
+
+            line:{
+                color:"#ffffff",
+                width:1
+            }
+
+        },
+
+        text:
+            parties.map(
+                p=>valid(
+                    averages["2024"][p.name]
+                )
+                ?
+                averages["2024"][p.name]
+                    .toFixed(2)+"%"
+                :
+                "N/D"
+            ),
+
+        textposition:"outside",
+
+        hovertemplate:
+            "<b>%{x}</b><br>"+
+            "2024: %{y:.2f}%"+
+            "<extra></extra>"
+
+    });
+
+
+    /*
+       2025
+    */
+
+    traces.push({
+
+        x:x,
+
+        y:parties.map(
+            p=>averages["2025"][p.name]
+        ),
+
+        name:"2025",
+
+        type:"bar",
+
+        marker:{
+
+            color:
+                parties.map(
+                    p=>p.color
+                ),
+
+            opacity:1,
+
+            line:{
+                color:"#ffffff",
+                width:1
+            }
+
+        },
+
+        text:
+            parties.map(
+                p=>valid(
+                    averages["2025"][p.name]
+                )
+                ?
+                averages["2025"][p.name]
+                    .toFixed(2)+"%"
+                :
+                "N/D"
+            ),
+
+        textposition:"outside",
+
+        hovertemplate:
+            "<b>%{x}</b><br>"+
+            "2025: %{y:.2f}%"+
+            "<extra></extra>"
+
+    });
+
+
+    const title =
+        filtered.length === 1
+        ?
+        `Sección ${filtered[0].section} — ${filtered[0].region}`
+        :
+        filtered.length > 1
+        ?
+        `Promedio de ${filtered.length} secciones`
+        :
+        "Sin información";
+
+
+    Plotly.newPlot(
+
+        "mainChart",
+
+        traces,
+
+        {
+
+            title:{
+
+                text:title,
+
+                font:{
+                    size:18
+                }
+
+            },
+
+            barmode:"group",
+
+            bargap:.22,
+
+            bargroupgap:.08,
+
+            height:530,
+
+            margin:{
+
+                l:65,
+
+                r:35,
+
+                t:80,
+
+                b:70
+
+            },
+
+            xaxis:{
+
+                title:"Partido",
+
+                tickfont:{
+                    size:13
+                }
+
+            },
+
+            yaxis:{
+
+                title:"Porcentaje de votación",
+
+                ticksuffix:"%",
+
+                rangemode:"tozero",
+
+                gridcolor:"#eeeeee"
+
+            },
+
+            legend:{
+
+                orientation:"h",
+
+                x:.5,
+
+                xanchor:"center",
+
+                y:1.04
+
+            },
+
+            plot_bgcolor:"#ffffff",
+
+            paper_bgcolor:"#ffffff",
+
+            font:{
+
+                family:"Arial"
+
+            }
+
+        },
+
+        {
+
+            responsive:true,
+
+            displayModeBar:false
+
+        }
+
+    );
+
+}
+
+
+/* =========================================================
+   RANKING DE PARTIDOS
+========================================================= */
+
+function calculateRanking(values){
+
+    return parties
+
+        .map(p=>({
+
+            party:p.name,
+
+            value:
+                values[p.name]
+
+        }))
+
+        .filter(
+            d=>valid(d.value)
+        )
+
+        .sort(
+            (a,b)=>
+                b.value-a.value
+        );
+
+}
+
+
+function renderRanking(){
+
+    const filtered =
+        getFilteredData();
+
+
+    const averages =
+        calculateAverages(
+            filtered
+        );
+
+
+    const rankingContainer =
+        document.getElementById(
+            "rankingContainer"
+        );
+
+
+    rankingContainer.innerHTML="";
+
+
+    parties.forEach(p=>{
+
+        const value24 =
+            averages["2024"][p.name];
+
+        const value25 =
+            averages["2025"][p.name];
+
+
+        const ranking24 =
+            calculateRanking(
+                averages["2024"]
+            );
+
+
+        const ranking25 =
+            calculateRanking(
+                averages["2025"]
+            );
+
+
+        const place24 =
+            ranking24.findIndex(
+                d=>d.party===p.name
+            ) + 1;
+
+
+        const place25 =
+            ranking25.findIndex(
+                d=>d.party===p.name
+            ) + 1;
+
+
+        const card =
+            document.createElement(
+                "div"
+            );
+
+
+        card.className =
+            "ranking-card";
+
+
+        card.innerHTML=`
+
+            <div
+                class="ranking-party ${p.className}">
+                ${p.name}
+            </div>
+
+
+            <div class="ranking-year">
+                2024
+            </div>
+
+            <div class="ranking-place">
+
+                ${
+                    valid(value24)
+                    ?
+                    place24 + "°"
+                    :
+                    "—"
+                }
+
+            </div>
+
+
+            <div class="ranking-year">
+                2025
+            </div>
+
+            <div class="ranking-place">
+
+                ${
+                    valid(value25)
+                    ?
+                    place25 + "°"
+                    :
+                    "—"
+                }
+
+            </div>
+
+        `;
+
+
+        rankingContainer.appendChild(
+            card
+        );
+
+    });
+
+}
+
+
+/* =========================================================
+   CAMBIO PRI
+========================================================= */
+
+function renderChangeChart(){
+
+    const filtered =
+        getFilteredData();
+
+
+    /*
+       Si hay una sola sección:
+
+       mostramos el cambio de esa sección.
+
+       Si hay varias:
+
+       mostramos el cambio promedio
+       de las secciones filtradas.
+    */
+
+
+    const labels =
+        filtered.map(
+            d=>String(d.section)
+        );
+
+
+    const changes =
+        filtered.map(d=>{
+
+            const pri2024 =
+                d["2024"]["PRI"];
+
+            const pri2025 =
+                d["2025"]["PRI"];
+
+
+            if(
+                !valid(pri2024) ||
+                !valid(pri2025)
+            ){
+
+                return null;
+
+            }
+
+
+            return (
+                pri2025 -
+                pri2024
+            );
+
+        });
+
+
+    /*
+       Para todas las secciones:
+       mostrar cada sección.
+
+       Para una sola sección:
+       mostrar esa sección.
+    */
+
+
+    const clean=[];
+
+
+    filtered.forEach(
+        (d,i)=>{
+
+            if(
+                valid(changes[i])
+            ){
+
+                clean.push({
+
+                    section:
+                        labels[i],
+
+                    change:
+                        changes[i]
+
+                });
+
+            }
+
+        }
+    );
+
+
+    /*
+       Ordenar de mayor a menor.
+    */
+
+    clean.sort(
+        (a,b)=>
+            b.change-a.change
+    );
+
+
+    const positive =
+        clean.map(
+            d=>
+                d.change >= 0
+                ? d.change
+                : null
+        );
+
+
+    const negative =
+        clean.map(
+            d=>
+                d.change < 0
+                ? d.change
+                : null
+        );
+
+
+    Plotly.newPlot(
+
+        "changeChart",
+
+        [
+
+            {
+
+                y:
+                    clean.map(
+                        d=>d.section
+                    ),
+
+                x:positive,
+
+                type:"bar",
+
+                orientation:"h",
+
+                name:"Aumento",
+
+                marker:{
+
+                    color:"#198754"
+
+                },
+
+                text:
+                    clean.map(
+                        d=>
+                            d.change >= 0
+                            ?
+                            "+"+
+                            d.change.toFixed(2)+
+                            " pp"
+                            :
+                            ""
+                    ),
+
+                textposition:"outside",
+
+                hovertemplate:
+                    "<b>Sección %{y}</b><br>"+
+                    "Cambio: +%{x:.2f} pp"+
+                    "<extra></extra>"
+
+            },
+
+
+            {
+
+                y:
+                    clean.map(
+                        d=>d.section
+                    ),
+
+                x:negative,
+
+                type:"bar",
+
+                orientation:"h",
+
+                name:"Disminución",
+
+                marker:{
+
+                    color:"#C8102E"
+
+                },
+
+                text:
+                    clean.map(
+                        d=>
+                            d.change < 0
+                            ?
+                            d.change.toFixed(2)+
+                            " pp"
+                            :
+                            ""
+                    ),
+
+                textposition:"outside",
+
+                hovertemplate:
+                    "<b>Sección %{y}</b><br>"+
+                    "Cambio: %{x:.2f} pp"+
+                    "<extra></extra>"
+
+            }
+
+        ],
+
+        {
+
+            barmode:"relative",
+
+            height:
+                Math.max(
+                    400,
+                    clean.length * 28
+                ),
+
+            margin:{
+
+                l:70,
+
+                r:100,
+
+                t:30,
+
+                b:60
+
+            },
+
+            xaxis:{
+
+                title:
+                    "Cambio 2025 vs. 2024 (puntos porcentuales)",
+
+                zeroline:true,
+
+                zerolinewidth:2,
+
+                zerolinecolor:"#444",
+
+                ticksuffix:" pp",
+
+                gridcolor:"#eeeeee"
+
+            },
+
+            yaxis:{
+
+                title:
+                    "Sección electoral",
+
+                automargin:true
+
+            },
+
+            legend:{
+
+                orientation:"h",
+
+                x:.5,
+
+                xanchor:"center",
+
+                y:1.04
+
+            },
+
+            plot_bgcolor:"#ffffff",
+
+            paper_bgcolor:"#ffffff",
+
+            font:{
+
+                family:"Arial"
+
+            }
+
+        },
+
+        {
+
+            responsive:true,
+
+            displayModeBar:false
+
+        }
+
+    );
+
+}
+
+
+/* =========================================================
+   ACTUALIZAR TODO
+========================================================= */
+
+function updateDashboard(){
+
+    const filtered =
+        getFilteredData();
+
+
+    /*
+       Texto de selección
+    */
+
+    const selectedText =
+        document.getElementById(
+            "selectedText"
+        );
+
+
+    const section =
+        document.getElementById(
+            "sectionSelect"
+        ).value;
+
+
+    const region =
+        document.getElementById(
+            "regionSelect"
+        ).value;
+
+
+    if(
+        section !== "TODAS" &&
+        region !== "TODAS"
+    ){
+
+        selectedText.textContent =
+            `Sección ${section} — ${region}`;
+
+    }
+
+    else if(
+        section !== "TODAS"
+    ){
+
+        const item =
+            records.find(
+                d=>
+                    String(d.section) ===
+                    String(section)
+            );
+
+
+        selectedText.textContent =
+            `Sección ${section} — ${item.region}`;
+
+    }
+
+    else if(
+        region !== "TODAS"
+    ){
+
+        selectedText.textContent =
+            `${region} — ${filtered.length} secciones`;
+
+    }
+
+    else{
+
+        selectedText.textContent =
+            "Todas las secciones";
+
+    }
+
+
+    renderMainChart();
+
+    renderRanking();
+
+    renderChangeChart();
+
+}
+
+
+/* =========================================================
+   EVENTOS
+========================================================= */
+
+document
+    .getElementById(
+        "sectionSelect"
+    )
+    .addEventListener(
+        "change",
+        updateDashboard
+    );
+
+
+document
+    .getElementById(
+        "regionSelect"
+    )
+    .addEventListener(
+        "change",
+        updateDashboard
+    );
+
+
+/* =========================================================
+   INICIALIZACIÓN
+========================================================= */
+
+loadFilters();
+
+updateDashboard();
+
+
+</script>
+
+
+</body>
+
+</html>
